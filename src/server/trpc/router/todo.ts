@@ -44,7 +44,7 @@ export const todoRouter = t.router({
     }),
   updateTask: protectedProcedure
     .input(updateTaskSchema)
-    .mutation(async ({  ctx, input}) => {
+    .mutation(async ({  ctx, input }) => {
       const task = await ctx.prisma.task.update({
         where: {
           id: input.taskId,
@@ -55,5 +55,14 @@ export const todoRouter = t.router({
         },
       })
       return task
-    })
+    }),
+  deleteTask: protectedProcedure
+    .input(deleteTaskSchema)
+    .mutation(async ({  ctx, input }) => {
+      await ctx.prisma.task.delete({
+        where: {
+          id: input.taskId,
+        },
+      })
+    }),
 })
