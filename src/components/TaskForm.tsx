@@ -1,10 +1,10 @@
-import { FormEvent } from 'react'
+import type { FormEvent } from 'react'
 import useStore from '../store'
-import { userMutateTask } from '../hooks/userMutateTask'
+import { useMutateTask } from '../hooks/useMutateTask'
 
 export const TaskForm = () => {
   const { createTaskMutation, updateTaskMutation } = useMutateTask()
-  const { editedTask } = useStore
+  const { editedTask } = useStore()
   const update = useStore((state) => state.updateEditedTask)
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -37,17 +37,17 @@ export const TaskForm = () => {
         onChange={(e) => update({ ...editedTask, title: e.target.value })}
       />
       <p className="mb-3 text-pink-500">
-        {createTaskMutation.error?.zodError &&
+        {createTaskMutation.error?.data?.zodError &&
           createTaskMutation.error.data.zodError.fieldErrors.title}
       </p>
       <textarea 
         className='mb-3 border border-gray-300 px-3 py-2'
         placeholder='Body'
-        value={editedTask.title || ''}
+        value={editedTask.body || ''}
         onChange={(e) => update({ ...editedTask, body: e.target.value })}
       />
       <p className="mb-3 text-pink-500">
-        {createTaskMutation.error?.zodError &&
+        {createTaskMutation.error?.data?.zodError &&
           createTaskMutation.error.data.zodError.fieldErrors.body}
       </p>
       <button className="rounded bg-indigo-600 py-1 px-3 text-white hover:bg-indigo-700 focus:outline-none">
