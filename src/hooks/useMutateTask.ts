@@ -14,7 +14,7 @@ export const useMutateTask = () => {
       reset()
     },
   })
-  const updateTaskMutation = trpc.todo.udpateTask.useMutation({
+  const updateTaskMutation = trpc.todo.updateTask.useMutation({
     onSuccess: (res) => {
       const previousTodos = utils.todo.getTasks.getData()
       if (previousTodos) {
