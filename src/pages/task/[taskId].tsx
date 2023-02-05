@@ -9,7 +9,7 @@ import { Layout } from '../../components/Layout'
 const SingleTaskPage: NextPage = () => {
   const router = useRouter()
   const taskId = router.query.taskId as string
-  const { data, isLoading, error } = trpc.todo.getTasks.useQuery({
+  const { data, isLoading, error } = trpc.todo.getSingleTask.useQuery({
     taskId,
   })
   if (isLoading) {
