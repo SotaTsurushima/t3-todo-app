@@ -1,7 +1,7 @@
 import useStore from '../store'
-import { trpc } from '../util/trpc'
+import { trpc } from '../utils/trpc'
 
-export const userMutateTask = () => {
+export const useMutateTask = () => {
   const utils = trpc.useContext()
   const reset = useStore((state) => state.resetEditedTask)
   
@@ -9,12 +9,12 @@ export const userMutateTask = () => {
     onSuccess: (res) => {
       const previousTodos = utils.todo.getTasks.getData()
       if (previousTodos) {
-        utils.todo.getTasks.setData([res, ...previousTodos)]
+        utils.todo.getTasks.setData([res, ...previousTodos])
       }
       reset()
-    }
+    },
   })
-  const udpateTaskMutation = trpc.todo.udpateTask.useMutation({
+  const updateTaskMutation = trpc.todo.udpateTask.useMutation({
     onSuccess: (res) => {
       const previousTodos = utils.todo.getTasks.getData()
       if (previousTodos) {
@@ -33,9 +33,9 @@ export const userMutateTask = () => {
           previousTodos.filter((task) => task.id !== variables.taskId)
         )
       }
-      reset( createTaskMutation, udpateTaskMutation, deleteTaskMutation )
+      reset()
     }
   })
   
-  return {}
+  return { createTaskMutation, updateTaskMutation, deleteTaskMutation }
 }
