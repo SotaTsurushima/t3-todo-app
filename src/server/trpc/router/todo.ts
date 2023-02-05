@@ -1,13 +1,14 @@
+import { publicProcedure } from './../trpc';
 import {
   createTaskSchema,
   getSingleTaskSchema,
   updateTaskSchema,
   deleteTaskSchema,
-} from '../../../api/schema/todo'
+} from '../../../pages/api/schema/todo'
 
-import { t, protectedProcedure } from '../trpc'
+import { router, protectedProcedure } from '../trpc'
 
-export const todoRouter = t.router({
+export const todoRouter = router({
   createTask: protectedProcedure
     .input(createTaskSchema)
     .mutation(async ({ ctx, input }) => {
@@ -23,7 +24,7 @@ export const todoRouter = t.router({
       })
       return task
     }),
-  getTasks: t.procedure.query(({ ctx }) => {
+  getTasks: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.task.findMany({
       where: {
         userId: ctx.session?.user?.id,
